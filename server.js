@@ -61,9 +61,9 @@ app.get('/', (req, res) => {
 });
 
 // Test connection
-pool.connect()
-  .then(() => console.log("Connected to PostgreSQL"))
-  .catch(err => console.error("Connection error", err));
+// pool.connect()
+//   .then(() => console.log("Connected to PostgreSQL"))
+//   .catch(err => console.error("Connection error", err));
 
 // GET /products
 app.get("/products", async (req, res) => {
