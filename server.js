@@ -18,6 +18,8 @@ const __dirname = path.dirname(__filename);
 
 const isProduction = process.env.NODE_ENV === "production";
 
+console.log(`Running in ${isProduction ? "production" : "development"} mode`);
+
 // PostgreSQL connection pool
 const pool = new Pool(
   isProduction
@@ -47,6 +49,7 @@ app.use('/users', userRouter);
 // Root route
 app.get('/', (req, res) => {
   res.send('Server is running!');
+
 });
 
 // Test connection
@@ -63,6 +66,13 @@ app.get("/products", async (req, res) => {
     console.error(err);
     res.status(500).json({ error: "Database error" });
   }
+});
+
+app.get("/env", (req, res) => {
+  res.json({
+    NODE_ENV: process.env.NODE_ENV,
+    isProduction: process.env.NODE_ENV === "production",
+  });
 });
 
 // Start server
