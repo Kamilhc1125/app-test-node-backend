@@ -20,21 +20,20 @@ const isProduction = process.env.NODE_ENV === "production";
 
 console.log(`Running in ${isProduction ? "production" : "development"} mode`);
 
-// PostgreSQL connection pool
-// const pool = new Pool(
-//   isProduction
-//     ? {
-//       connectionString: process.env.DATABASE_URL,
-//       ssl: { rejectUnauthorized: false },
-//     }
-//     : {
-//       host: process.env.PG_HOST,
-//       port: Number(process.env.PG_PORT),
-//       user: process.env.PG_USER,
-//       password: process.env.PG_PASSWORD,
-//       database: process.env.PG_DATABASE,
-//     }
-// );
+const pool = new Pool(
+  isProduction
+    ? {
+      connectionString: process.env.DATABASE_URL,
+      ssl: { rejectUnauthorized: false },
+    }
+    : {
+      host: process.env.PG_HOST,
+      port: Number(process.env.PG_PORT),
+      user: process.env.PG_USER,
+      password: process.env.PG_PASSWORD,
+      database: process.env.PG_DATABASE,
+    }
+);
 
 // const pool = new Pool(
 //   {
@@ -60,10 +59,10 @@ app.get('/', (req, res) => {
 
 });
 
-// Test connection
-// pool.connect()
-//   .then(() => console.log("Connected to PostgreSQL"))
-//   .catch(err => console.error("Connection error", err));
+//Test connection
+pool.connect()
+  .then(() => console.log("Connected to PostgreSQL"))
+  .catch(err => console.error("Connection error", err));
 
 // GET /products
 app.get("/products", async (req, res) => {
