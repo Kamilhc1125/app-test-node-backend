@@ -54,10 +54,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/users', userRouter);
 
 // Root route
-app.get('/', (req, res) => {
-  res.send('Server is running!');
+// app.get('/', (req, res) => {
+//   res.send('Server is running!');
 
-});
+// });
 
 //Test connection
 // pool.connect()
@@ -65,22 +65,22 @@ app.get('/', (req, res) => {
 //   .catch(err => console.error("Connection error", err));
 
 // GET /products
-app.get("/products", async (req, res) => {
-  try {
-    const result = await pool.query("SELECT * FROM products ORDER BY productid");
-    res.json(result.rows); // send rows as JSON
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Database error" });
-  }
-});
+// app.get("/products", async (req, res) => {
+//   try {
+//     const result = await pool.query("SELECT * FROM products ORDER BY productid");
+//     res.json(result.rows); // send rows as JSON
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ error: "Database error" });
+//   }
+// });
 
-app.get("/env", (req, res) => {
-  res.json({
-    NODE_ENV: process.env.NODE_ENV,
-    isProduction: process.env.NODE_ENV === "production",
-  });
-});
+// app.get("/env", (req, res) => {
+//   res.json({
+//     NODE_ENV: process.env.NODE_ENV,
+//     isProduction: process.env.NODE_ENV === "production",
+//   });
+// });
 
 // Start server
 app.listen(PORT, () => {
