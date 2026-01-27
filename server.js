@@ -10,7 +10,7 @@ const { Pool } = pkg;
 dotenv.config();
 
 const app = express();
-const PORT = process.env.NODE_PORT || 5000;
+const PORT = process.env.PORT || 5000;
 
 // __dirname replacement in ESM
 const __filename = fileURLToPath(import.meta.url);
