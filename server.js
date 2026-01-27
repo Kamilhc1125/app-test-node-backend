@@ -20,20 +20,20 @@ const isProduction = process.env.NODE_ENV === "production";
 
 console.log(`Running in ${isProduction ? "production" : "development"} mode`);
 
-// const pool = new Pool(
-//   isProduction
-//     ? {
-//       connectionString: process.env.DATABASE_URL,
-//       ssl: { rejectUnauthorized: false },
-//     }
-//     : {
-//       host: process.env.PG_HOST,
-//       port: Number(process.env.PG_PORT),
-//       user: process.env.PG_USER,
-//       password: process.env.PG_PASSWORD,
-//       database: process.env.PG_DATABASE,
-//     }
-// );
+const pool = new Pool(
+  isProduction
+    ? {
+      connectionString: process.env.DATABASE_URL,
+      ssl: { rejectUnauthorized: false },
+    }
+    : {
+      host: process.env.PG_HOST,
+      port: Number(process.env.PG_PORT),
+      user: process.env.PG_USER,
+      password: process.env.PG_PASSWORD,
+      database: process.env.PG_DATABASE,
+    }
+);
 
 // const pool = new Pool(
 //   {
@@ -60,27 +60,27 @@ app.use('/users', userRouter);
 // });
 
 //Test connection
-// pool.connect()
-//   .then(() => console.log("Connected to PostgreSQL"))
-//   .catch(err => console.error("Connection error", err));
+pool.connect()
+  .then(() => console.log("Connected to PostgreSQL"))
+  .catch(err => console.error("Connection error", err));
 
-// GET /products
-// app.get("/products", async (req, res) => {
-//   try {
-//     const result = await pool.query("SELECT * FROM products ORDER BY productid");
-//     res.json(result.rows); // send rows as JSON
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ error: "Database error" });
-//   }
-// });
 
-// app.get("/env", (req, res) => {
-//   res.json({
-//     NODE_ENV: process.env.NODE_ENV,
-//     isProduction: process.env.NODE_ENV === "production",
-//   });
-// });
+app.get("/products", async (req, res) => {
+  try {
+    const result = await pool.query("SELECT * FROM products ORDER BY productid");
+    res.json(result.rows); // send rows as JSON
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Database error" });
+  }
+});
+
+app.get("/env", (req, res) => {
+  res.json({
+    NODE_ENV: process.env.NODE_ENV,
+    isProduction: process.env.NODE_ENV === "production",
+  });
+});
 
 // Start server
 app.listen(PORT, () => {
